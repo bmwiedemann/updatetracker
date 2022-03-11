@@ -17,7 +17,7 @@ $data = <>;
 
 if($data =~m/Delivered-To: ([^+@]*)\+?(.*)@/) {
   my $dest = $2;
-  $dest =~ s/[^a-z0-9]//g; # sanitize untrusted input
+  $dest =~ s/[^a-z0-9_-]//g; # sanitize untrusted input
   my $ua = LWP::UserAgent->new;
   $ua->agent("receivemail/20220311");
   $ua->request(HTTP::Request->new(POST => "$tracker/update/$dest"));

@@ -13,7 +13,7 @@ if($p =~ s!^/(\w+)/?!!) {
     $action = $1;
 } else { die "no action" }
 
-$p=~s/[^a-z0-9]//g; # sanitize untrusted input
+$p=~s/[^a-z0-9_-]//g; # sanitize untrusted input
 #print "$m $action $p";
 
 sub post_update()
