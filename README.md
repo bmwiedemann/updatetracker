@@ -7,7 +7,7 @@ This is a useful component in monitoring liveliness of distributed IT systems.
 ```bash
 curl -X POST http://updatetracker.example.com/clear
 curl -X POST http://updatetracker.example.com/update/foo
-curl http://updatetracker.example.com/list
+curl http://updatetracker.example.com/update
 ```
 
 ## Setup
