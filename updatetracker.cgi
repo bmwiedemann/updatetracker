@@ -7,7 +7,7 @@ our $cachedir="/tmp/updatetracker.cache";
 print "Status: 200 OK\r\nContent-type: text/plain\r\n\r\n";
 
 my $p = $ENV{PATH_INFO};
-my $m = $ENV{REQUEST_METHOD};
+my $m = uc($ENV{REQUEST_METHOD});
 my $action;
 if($p =~ s!^/(\w+)/?!!) {
     $action = $1;
