@@ -1,0 +1,24 @@
+#!/usr/bin/perl -w
+# usage:
+# in ~/.forward :
+# |/path/to/receivemail
+# then send mail to emailmonitor+foo@example.com
+
+use strict;
+use LWP::UserAgent;
+
+our $tracker="http://updatetracker.example.com";
+
+my $data;
+{
+local $/;
+$data = <>;
+}
+
+if($data =~m/Delivered-To: ([^+@]*)\+?(.*)@/) {
+  my $dest = $2;
+  $dest =~ s/[^a-z0-9]//g; # sanitize untrusted input
+  my $ua = LWP::UserAgent->new;
+  $ua->agent("receivemail/20220311");
+  $ua->request(HTTP::Request->new(POST => "$tracker/update/$dest"));
+}
