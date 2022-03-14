@@ -13,12 +13,13 @@ if($p =~ s!^/(\w+)/?!!) {
     $action = $1;
 } else { die "no action" }
 
-$p=~s/[^a-z0-9_-]//g; # sanitize untrusted input
+$p=~s/[^a-z0-9\@_.+-]//g; # sanitize untrusted input
 #print "$m $action $p";
 
 sub post_update()
 {
     mkdir $cachedir;
+    $p=~s/\.//g;
     open(my $fd, ">", "$cachedir/$p") or die;
     print $fd time();
     close $fd;
@@ -44,6 +45,21 @@ sub do_clear()
         unlink($f);
     }
 }
+sub do_send()
+{
+    my %whitelist=qw(
+        bwiedemann+mailtest-imap-forward-at-suse.de 1
+        mailmanautotest-at-suse.de 1
+        schleuderautotest-at-suse.de 1
+    );
+    my($addr, $server)=split("@", $p);
+    return unless $whitelist{$addr};
+    $addr =~ s/-at-/\@/;
+    $server ||= "mx2.suse.de";
+    print "sending...\n";
+    system(qw(swaks --server), $server, "--to", $addr);
+    print "sent\n";
+}
 
 if($action eq "update") {
     if($m eq "POST") {
@@ -53,4 +69,6 @@ if($action eq "update") {
     }
 } elsif($action eq "clear") {
     do_clear;
+} elsif($action eq "send" and $m eq "POST") {
+    do_send;
 }
