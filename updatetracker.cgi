@@ -63,7 +63,7 @@ sub do_send()
 
 if($action eq "update") {
     if($m eq "POST") {
-        post_update 
+        post_update
     } else {
         get_update
     }
