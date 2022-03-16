@@ -17,8 +17,8 @@ local $/;
 $data = <>;
 }
 
-if($data =~m/Delivered-To: ([^+@]*)\+?(.*)@/) {
-  my $dest = $2;
+if($data =~m/^(Delivered-To|X-Original-To|To): ([^+@]*)\+?(.*)\@/m) {
+  my $dest = $3;
   $dest =~ s/[^a-z0-9_-]//g; # sanitize untrusted input
   my $ua = LWP::UserAgent->new;
   $ua->agent("receivemail/20220316");
