@@ -9,6 +9,7 @@ use strict;
 use LWP::UserAgent;
 
 our $tracker="http://updatetracker.example.com";
+our $hostname = `hostname`; chomp($hostname);
 
 my $data;
 {
@@ -20,6 +21,6 @@ if($data =~m/Delivered-To: ([^+@]*)\+?(.*)@/) {
   my $dest = $2;
   $dest =~ s/[^a-z0-9_-]//g; # sanitize untrusted input
   my $ua = LWP::UserAgent->new;
-  $ua->agent("receivemail/20220311");
-  $ua->request(HTTP::Request->new(POST => "$tracker/update/$dest"));
+  $ua->agent("receivemail/20220316");
+  $ua->request(HTTP::Request->new(POST => "$tracker/update/$hostname-$dest"));
 }
