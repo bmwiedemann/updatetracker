@@ -16,6 +16,14 @@ if($p =~ s!^/(\w+)/?!!) {
 
 $p=~s/[^a-z0-9\@_.+-]//g; # sanitize untrusted input
 #print "$m $action $p";
+my @params = split("&", $ENV{QUERY_STRING});
+my %params = ();
+foreach(@params) {
+    my ($k,$v) = split("=");
+    $k =~ s/[^a-z0-9]//g; # sanitize untrusted input
+    $v =~ s/[^a-z0-9]//g; # sanitize untrusted input
+    $params{$k} = $v;
+}
 
 sub post_update()
 {
