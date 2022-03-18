@@ -46,6 +46,12 @@ sub get_update()
         $basename =~s!.*/!!;
         $data{$basename} = <$fd>;
     }
+    if (my $b = $params{base}) {
+        my $bv = $data{$b};
+        foreach(keys %data) {
+            $data{$_} -= $bv;
+        }
+    }
     print JSON->new->pretty->canonical->encode(\%data);
 }
 sub do_clear()
