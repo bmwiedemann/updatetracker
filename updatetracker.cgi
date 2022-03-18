@@ -33,7 +33,7 @@ sub post_update()
     print $fd time();
     close $fd;
 }
-sub get_update()
+sub get_update_data()
 {
     my @list;
     if($p){@list="$cachedir/$p"}
@@ -52,7 +52,27 @@ sub get_update()
             $data{$_} -= $bv;
         }
     }
-    print JSON->new->pretty->canonical->encode(\%data);
+    return \%data;
+}
+sub get_update()
+{
+    print JSON->new->pretty->canonical->encode(get_update_data());
+}
+sub do_check()
+{
+    my $data = get_update_data();
+    my $OK = 0;
+    my $notOK = 0;
+    foreach(keys %$data) {
+        my $v = $data->{$_};
+        if($v >= 0 && $v < 30) {
+            $OK++;
+        } else {
+            $notOK++;
+        }
+    }
+    my $total = $OK+$notOK;
+    print "$OK/$total OK\n";
 }
 sub do_clear()
 {
@@ -82,6 +102,8 @@ if($action eq "update") {
     } else {
         get_update
     }
+} elsif($action eq "check") {
+    do_check;
 } elsif($action eq "clear") {
     do_clear;
 } elsif($action eq "send" and $m eq "POST") {
