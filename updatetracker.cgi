@@ -65,7 +65,7 @@ sub do_check()
     my $notOK = 0;
     foreach(keys %$data) {
         my $v = $data->{$_};
-        if($v >= 0 && $v < 30) {
+        if($v > -150 && $v < 30) {
             $OK++;
         } else {
             $notOK++;
