@@ -60,6 +60,7 @@ sub get_update()
 }
 sub do_check()
 {
+    $params{base} = 1;
     my $data = get_update_data();
     my $OK = 0;
     my $notOK = 0;
