@@ -95,6 +95,17 @@ sub do_send()
     system(qw(swaks --server), $server, "--to", $addr);
     print "sent\n";
 }
+sub do_sendall()
+{
+    for my $m (
+        'mailmanautotest-at-suse.de@mail4.zq1.de.',
+        'schleuderautotest-at-suse.de@mx1.suse.de.',
+        'bwiedemann+mailtest-imap-forward-at-suse.de',
+    ) {
+        $p=$m;
+        do_send();
+    }
+}
 
 if($action eq "update") {
     if($m eq "POST") {
@@ -108,4 +119,6 @@ if($action eq "update") {
     do_clear;
 } elsif($action eq "send" and $m eq "POST") {
     do_send;
+} elsif($action eq "sendall" and $m eq "POST") {
+    do_sendall;
 }
