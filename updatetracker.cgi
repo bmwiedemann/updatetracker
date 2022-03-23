@@ -46,8 +46,8 @@ sub get_update_data()
         $basename =~s!.*/!!;
         $data{$basename} = <$fd>;
     }
-    if (my $b = $params{base}) {
-        my $bv = $data{$b};
+    if ($params{base}) {
+        my $bv = time;
         foreach(keys %data) {
             $data{$_} -= $bv;
         }
