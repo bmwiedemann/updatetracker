@@ -25,8 +25,8 @@ foreach(@params) {
     $params{$k} = $v;
 }
 
-sub post_update()
-{
+sub post_update($)
+{ my($p)=@_;
     mkdir $cachedir;
     $p=~s/\.//g;
     open(my $fd, ">", "$cachedir/$p") or die;
@@ -80,8 +80,8 @@ sub do_clear()
         unlink($f);
     }
 }
-sub do_send()
-{
+sub do_send($)
+{ my($p)=@_;
     my %whitelist=qw(
         bwiedemann+mailtest-imap-forward-at-suse.de 1
         mailmanautotest-at-suse.de 1
@@ -102,14 +102,14 @@ sub do_sendall()
         'schleuderautotest-at-suse.de@mx1.suse.de.',
         'bwiedemann+mailtest-imap-forward-at-suse.de',
     ) {
-        $p=$m;
-        do_send();
+        do_send($m);
     }
+    post_update('curl');
 }
 
 if($action eq "update") {
     if($m eq "POST") {
-        post_update
+        post_update($p)
     } else {
         get_update
     }
@@ -118,7 +118,7 @@ if($action eq "update") {
 } elsif($action eq "clear") {
     do_clear;
 } elsif($action eq "send" and $m eq "POST") {
-    do_send;
+    do_send($p);
 } elsif($action eq "sendall" and $m eq "POST") {
     do_sendall;
 }
