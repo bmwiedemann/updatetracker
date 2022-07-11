@@ -93,7 +93,7 @@ sub do_send($)
     $addr =~ s/-at-/\@/;
     $server ||= "mx2.suse.de";
     print "sending...\n";
-    system(qw(swaks --server), $server, "--to", $addr);
+    system(qw(swaks --from bernhard+mailautotest@os-autoinst.org --server), $server, "--to", $addr);
     print "sent\n";
 }
 sub do_sendall()
