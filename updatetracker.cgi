@@ -114,6 +114,8 @@ if($action eq "update") {
     } else {
         get_update
     }
+} elsif($action eq "updatepost") {
+    post_update($p)
 } elsif($action eq "check") {
     do_check;
 } elsif($action eq "clear") {
